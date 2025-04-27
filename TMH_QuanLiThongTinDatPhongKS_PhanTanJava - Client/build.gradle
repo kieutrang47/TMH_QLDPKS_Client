@@ -1,0 +1,87 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    junitVersion = '5.10.0'
+}
+
+sourceCompatibility = '11'
+targetCompatibility = '11'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+dependencies {
+    implementation('org.hibernate:hibernate-core:6.3.1.Final')
+    implementation('org.glassfish.jaxb:jaxb-runtime:4.0.3')
+
+    // https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
+    implementation("org.mariadb.jdbc:mariadb-java-client:3.5.3")
+
+    // https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc
+    implementation 'com.microsoft.sqlserver:mssql-jdbc:11.2.3.jre17'
+
+    // https://mvnrepository.com/artifact/org.projectlombok/lombok
+    compileOnly 'org.projectlombok:lombok:1.18.36'
+    annotationProcessor 'org.projectlombok:lombok:1.18.36'
+
+    // https://mvnrepository.com/artifact/net.datafaker/datafaker
+    implementation 'net.datafaker:datafaker:2.4.2'
+
+    // Giao diện
+    implementation files('lib/flatlaf-fonts-roboto-2.137.jar')
+    implementation files('lib/swing-toast-notifications-1.0.2.jar')
+    implementation files('lib/miglayout-swing.jar')
+    implementation files('lib/jBCrypt-0.4.1.jar')
+    implementation files('lib/miglayout-core.jar')
+    implementation files('lib/flatlaf-3.4.1.jar')
+    implementation files('lib/flatlaf-extras-3.4.1.jar')
+    implementation files('lib/jsvg-1.4.0.jar')
+    implementation files('lib/KControls-2.0-SNAPSHOT.jar')
+    implementation files('lib/AbsoluteLayout-RELEASE220.jar')
+    implementation 'com.toedter:jcalendar:1.4'
+    implementation 'com.sun.mail:javax.mail:1.6.2'
+    implementation files('lib/KGradientPanel-SNAPSHOT.jar')
+    implementation files('lib/jcalendar-1.4.jar')
+    implementation files('lib/datechooser.jar')
+    implementation files('lib/AbsoluteLayout-RELEASE220.jar')
+    implementation files('lib/itextpdf-5.5.13.4.jar')
+
+    // Thêm LGoodDatePicker
+    // https://mvnrepository.com/artifact/com.github.lgooddatepicker/LGoodDatePicker
+    implementation("com.github.lgooddatepicker:LGoodDatePicker:11.2.1")
+
+    implementation 'com.zaxxer:HikariCP:5.0.1'
+    implementation 'org.hibernate:hibernate-hikaricp:5.6.15.Final'
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+}
+
+// Thêm cấu hình để copy src/resources vào classpath
+sourceSets {
+    main {
+        resources {
+            srcDirs = ['src/main/resources', 'src/resources'] // Thêm src/resources
+        }
+    }
+}
+
+processResources {
+    from('src/resources') { // Copy toàn bộ thư mục src/resources
+        into 'resources' // Đặt vào build/resources/main/resources/
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
